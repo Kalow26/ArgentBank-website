@@ -1,4 +1,4 @@
-import React from 'react'
+import "./features.css"
 import { dataFeatures } from '../../data/datafeatures'
 import Feature from '../../components/Feature'
 
