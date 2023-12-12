@@ -1,26 +1,30 @@
 import { useState } from "react";
 import "./login.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserByEmail } from "../../app/store/features/userSlice";
 
 const Login = () => {
-  const [userInfo, setUserInfo] = useState({ email: "", password: "" });
+  const [userInfo, setUserInfo] = useState({
+    email: "",
+    password: "",
+    rememberMe: false,
+  });
+  console.log(userInfo.rememberMe);
+  const statusMessage = useSelector((state) => state.user.statusMessage);
 
   const dispatch = useDispatch();
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    dispatch(fetchUserByEmail(userInfo));
+  };
 
   return (
     <section className="main bg-dark">
       <div className="sign-in-content">
         <i className="fa fa-user-circle sign-in-icon"></i>
         <h1>Sign In</h1>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            dispatch({
-              type: "user/login",
-              payload: userInfo,
-            });
-          }}
-        >
+        <form onSubmit={submitForm}>
           <div className="input-wrapper">
             <label htmlFor="username">Username</label>
             <input
@@ -42,12 +46,19 @@ const Login = () => {
             />
           </div>
           <div className="input-remember">
-            <input type="checkbox" id="remember-me" />
+            <input
+              type="checkbox"
+              id="remember-me"
+              onChange={() =>
+                setUserInfo({ ...userInfo, rememberMe: !userInfo.rememberMe })
+              }
+            />
             <label htmlFor="remember-me">Remember me</label>
           </div>
           <button type="submit" className="sign-in-button">
             Sign In
           </button>
+          {statusMessage}
         </form>
       </div>
     </section>
