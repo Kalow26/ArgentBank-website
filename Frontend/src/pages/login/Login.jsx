@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./login.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserByEmail } from "../../app/store/features/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [userInfo, setUserInfo] = useState({
@@ -9,7 +10,7 @@ const Login = () => {
     password: "",
     rememberMe: false,
   });
-  console.log(userInfo.rememberMe);
+  const navigate = useNavigate();
   const statusMessage = useSelector((state) => state.user.statusMessage);
 
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ const Login = () => {
   const submitForm = (e) => {
     e.preventDefault();
     dispatch(fetchUserByEmail(userInfo));
+    navigate("/profile");
   };
 
   return (

@@ -27,8 +27,7 @@ export const fetchUserByEmail = createAsyncThunk(
 const initialState = {
   userInfo: {},
   statusMessage: "",
-  isLogged: false,
-  rememberMe: false,
+  storage: null,
 };
 
 export const userSlice = createSlice({
@@ -55,7 +54,7 @@ export const userSlice = createSlice({
         ? localStorage
         : sessionStorage;
       storage.setItem("token", action.payload.body.token);
-      state.isLogged = true;
+      state.storage = storage;
       state.statusMessage = action.payload.message;
     });
     builder.addCase(fetchUserByEmail.rejected, (state, action) => {
