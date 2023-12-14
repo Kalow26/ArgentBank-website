@@ -24,25 +24,44 @@ export const fetchUserByEmail = createAsyncThunk(
   }
 );
 
+export const getUserProfile = createAsyncThunk(
+  "users/getUserProfile",
+  async (token) => {
+    try {
+      const response = await fetch(`${url}profile`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 const initialState = {
   userInfo: {},
   statusMessage: "",
-  storage: null,
+  isLogged: false,
 };
 
 export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    login: (state, action) => {},
-    getUserProfile: (state, action) => {
-      /* type: "/user/getUserProfile", payload : "token" */
-    },
+    // getUserProfile: (state, action) => {
+    //   /* type: "/user/getUserProfile", payload : "token" */
+    // },
     updateUserName: (state, action) => {
       /* type : "/user/updateUserName", payload : "userName" */
     },
-    logout: (state, action) => {
-      /* type : "LOGOUT", payload : "token" */
+    logout: (state) => {
+      return { ...initialState };
     },
   },
   extraReducers: (builder) => {
@@ -53,17 +72,21 @@ export const userSlice = createSlice({
       const storage = action.meta.arg.rememberMe
         ? localStorage
         : sessionStorage;
+      state.isLogged = true;
       storage.setItem("token", action.payload.body.token);
-      state.storage = storage;
       state.statusMessage = action.payload.message;
     });
     builder.addCase(fetchUserByEmail.rejected, (state, action) => {
       state.statusMessage = action.payload.message;
     });
+
+    builder.addCase(getUserProfile.fulfilled, (state, action) => {
+      state.isLogged = true;
+      state.userInfo = action.payload.body;
+    });
   },
 });
 
-export const { login, getUserProfile, updateUserName, logout } =
-  userSlice.actions;
+export const { updateUserName, logout } = userSlice.actions;
 
 export default userSlice.reducer;

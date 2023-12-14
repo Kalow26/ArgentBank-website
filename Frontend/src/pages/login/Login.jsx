@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./login.css";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserByEmail } from "../../app/store/features/userSlice";
+import {
+  fetchUserByEmail,
+  getUserProfile,
+} from "../../app/store/features/userSlice";
 import { useNavigate } from "react-router-dom";
+import { getStorage } from "../../utils/getStorage";
 
 const Login = () => {
   const [userInfo, setUserInfo] = useState({
@@ -12,13 +16,22 @@ const Login = () => {
   });
   const navigate = useNavigate();
   const statusMessage = useSelector((state) => state.user.statusMessage);
+  const isLogged = useSelector((state) => state.user.isLogged);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isLogged) {
+      const storage = getStorage();
+      const token = storage.getItem("token");
+      dispatch(getUserProfile(token));
+      navigate("/profile");
+    }
+  }, [isLogged]);
 
   const submitForm = (e) => {
     e.preventDefault();
     dispatch(fetchUserByEmail(userInfo));
-    navigate("/profile");
   };
 
   return (
