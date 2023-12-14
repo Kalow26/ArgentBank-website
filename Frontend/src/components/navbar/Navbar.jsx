@@ -36,7 +36,7 @@ const Navbar = () => {
                 icon={faCircleUser}
                 className="fontawesome-icon"
               />
-              {state.userInfo.firstName}
+              {state.userInfo.userName}
             </NavLink>
             <NavLink
               className="main-nav_item"

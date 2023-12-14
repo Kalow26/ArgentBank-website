@@ -14,7 +14,7 @@ const Home = () => {
       const token = storage.getItem("token");
       dispatch(getUserProfile(token));
     }
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

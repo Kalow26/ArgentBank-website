@@ -60,6 +60,41 @@
     color: #fff;
 }
 
+.user-edition__container {
+    padding-top: 1rem;
+    display: grid;
+    place-content: center;
+    gap: 1rem;
+}
+
+.user-edition__container input {
+    padding: 0.5rem;
+    border-radius: 5px;
+}
+
+
+.user-edition__input-wrapper {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: left;
+}
+
+.sign-in-button {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    border-color: #00bc77;
+    background-color: #00bc77;
+    color: #fff;
+}
+
+
+
 @media (min-width: 720px) {
     .account {
         flex-direction: row;

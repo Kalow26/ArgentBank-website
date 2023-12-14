@@ -44,6 +44,28 @@ export const getUserProfile = createAsyncThunk(
   }
 );
 
+export const updateUserName = createAsyncThunk(
+  "users/updateUserName",
+  async ({ newUserName, token }, thunkAPI) => {
+    console.log(thunkAPI);
+    try {
+      const response = await fetch(`${url}profile`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ userName: newUserName }),
+      });
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 const initialState = {
   userInfo: {},
   statusMessage: "",
@@ -57,9 +79,9 @@ export const userSlice = createSlice({
     // getUserProfile: (state, action) => {
     //   /* type: "/user/getUserProfile", payload : "token" */
     // },
-    updateUserName: (state, action) => {
-      /* type : "/user/updateUserName", payload : "userName" */
-    },
+    // updateUserName: (state, action) => {
+    //   /* type : "/user/updateUserName", payload : "userName" */
+    // },
     logout: (state) => {
       return { ...initialState };
     },
@@ -84,9 +106,15 @@ export const userSlice = createSlice({
       state.isLogged = true;
       state.userInfo = action.payload.body;
     });
+
+    builder.addCase(updateUserName.fulfilled, (state, action) => {
+      // console.log(action.payload);
+      state.userInfo = action.payload.body;
+      state.statusMessage = action.payload.message;
+    });
   },
 });
 
-export const { updateUserName, logout } = userSlice.actions;
+export const { logout } = userSlice.actions;
 
 export default userSlice.reducer;
