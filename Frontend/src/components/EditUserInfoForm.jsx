@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
 import { getStorage } from "../utils/getStorage";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserName } from "../app/store/features/userSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { updateUserName } from "../app/store/userThunks/userThunks";
+import { handleStatutMessage } from "../app/store/features/userSlice";
 
 const EditUserInfoForm = ({ setEdition, lastName, firstName }) => {
   const statusMessage = useSelector((state) => state.user.statusMessage);
   const [newUserName, setNewUserName] = useState("");
-  const [showSuccessMessage, setShowSuccesMessage] = useState(false);
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
@@ -16,6 +15,14 @@ const EditUserInfoForm = ({ setEdition, lastName, firstName }) => {
     const token = storage.getItem("token");
     dispatch(updateUserName({ newUserName, token }));
   };
+
+  useEffect(() => {
+    if (statusMessage) {
+      setTimeout(() => {
+        dispatch(handleStatutMessage());
+      }, 2000);
+    }
+  }, [dispatch, statusMessage]);
 
   return (
     <form className="user-edition__container" onSubmit={handleSubmit}>
@@ -43,6 +50,7 @@ const EditUserInfoForm = ({ setEdition, lastName, firstName }) => {
           cancel
         </button>
       </div>
+      {statusMessage}
     </form>
   );
 };

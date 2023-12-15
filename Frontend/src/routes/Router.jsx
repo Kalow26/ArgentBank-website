@@ -3,6 +3,7 @@ import Home from "../pages/Home";
 import Login from "../pages/login/Login";
 import { Layout } from "./Layout";
 import Profile from "../pages/profile/Profile";
+import { PrivateRoute } from "../pages/PrivateRoute";
 
 export const Router = createBrowserRouter([
   {
@@ -20,7 +21,11 @@ export const Router = createBrowserRouter([
       },
       {
         path: "profile",
-        element: <Profile />,
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
       },
     ],
   },

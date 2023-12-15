@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchUserByEmail,
   getUserProfile,
-} from "../../app/store/features/userSlice";
+} from "../../app/store/userThunks/userThunks";
 import { useNavigate } from "react-router-dom";
 import { getStorage } from "../../utils/getStorage";
 

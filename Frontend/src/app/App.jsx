@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { RouterProvider } from "react-router-dom";
 import { Router } from "../routes/Router";
 import "../app/index.css";
-import { getUserProfile } from "./store/features/userSlice";
+import { getUserProfile } from "./store/userThunks/userThunks";
 import { getStorage } from "../utils/getStorage";
 import { useEffect } from "react";
 
