@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import Error404 from "./error404/Error404";
 
 export const PrivateRoute = ({ children }) => {
   const isLogged = useSelector((state) => state.user.isLogged);
@@ -7,6 +7,6 @@ export const PrivateRoute = ({ children }) => {
   if (isLogged) {
     return children;
   } else {
-    return <Navigate to="/" />;
+    return <Error404 />;
   }
 };

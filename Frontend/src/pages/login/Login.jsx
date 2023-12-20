@@ -7,6 +7,7 @@ import {
 } from "../../app/store/userThunks/userThunks";
 import { useNavigate } from "react-router-dom";
 import { getStorage } from "../../utils/getStorage";
+import { handleStatutMessage } from "../../app/store/features/userSlice";
 
 const Login = () => {
   const [userInfo, setUserInfo] = useState({
@@ -28,6 +29,14 @@ const Login = () => {
       navigate("/profile");
     }
   }, [isLogged]);
+
+  useEffect(() => {
+    if (statusMessage) {
+      setTimeout(() => {
+        dispatch(handleStatutMessage());
+      }, 2000);
+    }
+  }, [dispatch, statusMessage]);
 
   const submitForm = (e) => {
     e.preventDefault();
