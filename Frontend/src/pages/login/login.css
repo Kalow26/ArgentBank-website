@@ -51,3 +51,11 @@
   padding: 5px;
   font-size: 1.2rem;
 }
+
+.status-message {
+  display: block;
+  margin-top: 1rem;
+  text-align: center;
+  font-weight: bold;
+  color: red;
+}

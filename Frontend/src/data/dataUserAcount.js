@@ -7,7 +7,7 @@ export const dataUserAccount = [
   },
   {
     id: 2,
-    title: "Argent Bank Savings (x6712",
+    title: "Argent Bank Savings (x6712)",
     amount: "$10,928.42",
     amountDesc: "Available Balance",
   },

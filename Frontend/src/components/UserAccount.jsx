@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 const UserAccount = ({ title, amount, amountdesc }) => {
   return (
     <div className="account-content-wrapper">

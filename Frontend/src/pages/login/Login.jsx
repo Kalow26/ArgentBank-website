@@ -1,13 +1,15 @@
+import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import "./login.css";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { handleStatutMessage } from "../../app/store/features/userSlice";
 import {
   fetchUserByEmail,
   getUserProfile,
 } from "../../app/store/userThunks/userThunks";
-import { useNavigate } from "react-router-dom";
 import { getStorage } from "../../utils/getStorage";
-import { handleStatutMessage } from "../../app/store/features/userSlice";
+import "./login.css";
 
 const Login = () => {
   const [userInfo, setUserInfo] = useState({
@@ -28,13 +30,13 @@ const Login = () => {
       dispatch(getUserProfile(token));
       navigate("/profile");
     }
-  }, [isLogged]);
+  }, [isLogged, dispatch, navigate]);
 
   useEffect(() => {
     if (statusMessage) {
       setTimeout(() => {
         dispatch(handleStatutMessage());
-      }, 2000);
+      }, 1800);
     }
   }, [dispatch, statusMessage]);
 
@@ -46,7 +48,7 @@ const Login = () => {
   return (
     <section className="main bg-dark">
       <div className="sign-in-content">
-        <i className="fa fa-user-circle sign-in-icon"></i>
+        <FontAwesomeIcon icon={faCircleUser} className="fontawesome-icon" />
         <h1>Sign In</h1>
         <form onSubmit={submitForm}>
           <div className="input-wrapper">
@@ -82,7 +84,7 @@ const Login = () => {
           <button type="submit" className="sign-in-button">
             Sign In
           </button>
-          {statusMessage}
+          <span className="status-message">{statusMessage}</span>
         </form>
       </div>
     </section>

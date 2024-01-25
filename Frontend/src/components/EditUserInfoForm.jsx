@@ -1,28 +1,36 @@
-import { getStorage } from "../utils/getStorage";
-import { useDispatch, useSelector } from "react-redux";
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { updateUserName } from "../app/store/userThunks/userThunks";
+import { useDispatch, useSelector } from "react-redux";
 import { handleStatutMessage } from "../app/store/features/userSlice";
+import { updateUserName } from "../app/store/userThunks/userThunks";
+import { getStorage } from "../utils/getStorage";
 
-const EditUserInfoForm = ({ setEdition, lastName, firstName }) => {
+const EditUserInfoForm = ({ setEdition, userName, lastName, firstName }) => {
   const statusMessage = useSelector((state) => state.user.statusMessage);
   const [newUserName, setNewUserName] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const storage = getStorage();
     const token = storage.getItem("token");
-    dispatch(updateUserName({ newUserName, token }));
+    if (newUserName !== userName && newUserName !== "") {
+      setErrorMessage("");
+      dispatch(updateUserName({ newUserName, token }));
+    } else {
+      setErrorMessage("Please enter a valid new user name");
+    }
   };
 
   useEffect(() => {
     if (statusMessage) {
       setTimeout(() => {
         dispatch(handleStatutMessage());
+        setEdition(false);
       }, 2000);
     }
-  }, [dispatch, statusMessage]);
+  }, [dispatch, statusMessage, setEdition]);
 
   return (
     <form className="user-edition__container" onSubmit={handleSubmit}>
@@ -31,7 +39,7 @@ const EditUserInfoForm = ({ setEdition, lastName, firstName }) => {
         <input
           type="text"
           id="userName"
-          placeholder="Enter a new User Name"
+          placeholder={userName}
           value={newUserName}
           onChange={(e) => setNewUserName(e.target.value)}
         />
@@ -50,6 +58,7 @@ const EditUserInfoForm = ({ setEdition, lastName, firstName }) => {
           cancel
         </button>
       </div>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
       {statusMessage}
     </form>
   );

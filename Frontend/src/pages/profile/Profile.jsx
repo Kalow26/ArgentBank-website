@@ -1,9 +1,9 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import EditUserInfoForm from "../../components/EditUserInfoForm";
 import UserAccount from "../../components/UserAccount";
 import { dataUserAccount } from "../../data/dataUserAcount";
 import "./profile.css";
-import { useSelector } from "react-redux";
-import EditUserInfoForm from "../../components/EditUserInfoForm";
 
 const Profile = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
@@ -28,7 +28,7 @@ const Profile = () => {
             <h1>
               Welcome back
               <br />
-              {userInfo.firstName} {userInfo.lastName}
+              {userInfo.userName}
             </h1>
 
             <button
