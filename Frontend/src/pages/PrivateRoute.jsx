@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useSelector } from "react-redux";
 import Error404 from "./error404/Error404";
 

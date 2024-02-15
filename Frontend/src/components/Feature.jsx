@@ -1,5 +1,4 @@
-import React from "react";
-
+/* eslint-disable react/prop-types */
 const Feature = ({ img, imgAlt, title, content }) => {
   return (
     <div className="feature-item">
